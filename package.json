@@ -9,8 +9,12 @@
   },
   "dependencies": {
     "@bogeychan/elysia-logger": "^0.1.6",
+    "@elysiajs/cors": "^1.2.0",
+    "@elysiajs/jwt": "^1.2.0",
     "@elysiajs/swagger": "^1.1.6",
     "@prisma/client": "6.1.0",
+    "@types/bcrypt": "^5.0.2",
+    "bcrypt": "^5.1.1",
     "elysia": "latest"
   },
   "devDependencies": {
