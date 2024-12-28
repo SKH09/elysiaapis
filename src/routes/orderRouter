@@ -1,0 +1,14 @@
+import Elysia from "elysia";
+import { authPlugin } from "../middleware/authPlugin";
+import { prisma } from "../models/database";
+
+export const orderRouter = new Elysia({ prefix: "/orders" })
+  .use(authPlugin)
+  .get("/", async ({ user }) => {
+    const orders = await prisma.order.findMany({
+      where: {
+        userId: user.id,
+      },
+    });
+    return orders;
+  });

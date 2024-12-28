@@ -1,36 +1,27 @@
-import { Elysia } from "elysia";
-import productRouter from "./routes/productRouter";
-import userRouter from "./routes/userRouter";
+import cors from "@elysiajs/cors";
 import swagger from "@elysiajs/swagger";
+import Elysia from "elysia";
+import { userRouter } from "./routes/userRouter";
+import { productRouter } from "./routes/productRouter";
 import { logger } from "@bogeychan/elysia-logger";
-import { jwt } from "@elysiajs/jwt";
-import { cors } from "@elysiajs/cors";
+import { authPlugin } from "./middleware/authPlugin";
+import { authRouter } from "./routes/authRouter";
 
 const app = new Elysia();
 
-console.log(process.env.JWT_TOKEN);
-
-app.use(
-  cors({
-    origin: "*",
+app.use(cors());
+app
+  .use(logger())
+  .use(
+    swagger({
+      path: "/swagger",
+    })
+  )
+  .get("/", () => {
+    return "Main Route";
   })
-);
 
-app.use(
-  jwt({
-    name: "jwt",
-    secret: process.env.JWT_TOKEN as string,
-  })
-);
-app.get("/", () => {
-  console.log(process.env.JWT_TOKEN);
-  return "Hello Elysia!";
-});
-app.use(swagger());
-app.use(logger());
-app.use(productRouter);
-app.use(userRouter).listen(3000);
-
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
+  .use(userRouter)
+  .use(authRouter)
+  .use(productRouter)
+  .listen(3000);
