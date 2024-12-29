@@ -6813,6 +6813,10 @@ var require_client = __commonJS((exports) => {
           fromEnvVar: null,
           value: "debian-openssl-3.0.x",
           native: true
+        },
+        {
+          fromEnvVar: null,
+          value: "debian-openssl-3.0.x"
         }
       ],
       previewFeatures: [],
@@ -6839,8 +6843,8 @@ var require_client = __commonJS((exports) => {
       }
     },
     inlineSchema: `generator client {
-  provider   = "prisma-client-js"
-  engineType = "dataproxy"
+  provider      = "prisma-client-js"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -6919,7 +6923,7 @@ model Order {
   orderItems OrderItem[]
 }
 `,
-    inlineSchemaHash: "2c683b5df39f498095e35be2cf1c68250737d1f1019b79b647c127c7e73f74d3",
+    inlineSchemaHash: "9a729ccf0d292c6ad45cae7a79686e135dd45546d26ed62bdd378987b6d29869",
     copyEngine: true
   };
   var fs = import.meta.require("fs");
