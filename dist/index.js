@@ -6829,7 +6829,7 @@ var require_client = __commonJS((exports) => {
       "db"
     ],
     activeProvider: "postgresql",
-    postinstall: true,
+    postinstall: false,
     inlineDatasources: {
       db: {
         url: {
