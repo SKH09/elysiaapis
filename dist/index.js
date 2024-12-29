@@ -6839,7 +6839,8 @@ var require_client = __commonJS((exports) => {
       }
     },
     inlineSchema: `generator client {
-  provider = "prisma-client-js"
+  provider   = "prisma-client-js"
+  engineType = "dataproxy"
 }
 
 datasource db {
@@ -6918,7 +6919,7 @@ model Order {
   orderItems OrderItem[]
 }
 `,
-    inlineSchemaHash: "c0d1c791c408b4522092d45e84e9542bd9afbc954ef16a05ab24d8ad71ba60a4",
+    inlineSchemaHash: "2c683b5df39f498095e35be2cf1c68250737d1f1019b79b647c127c7e73f74d3",
     copyEngine: true
   };
   var fs = import.meta.require("fs");
