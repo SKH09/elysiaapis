@@ -3,13 +3,13 @@ import { prisma } from "../models/database";
 import { authPlugin } from "../middleware/authPlugin";
 
 export const productRouter = new Elysia({ prefix: "/products" })
-  .get("/list", async ({}) => {
+  .get("", async ({}) => {
     const products = await prisma.product.findMany({});
     return products;
   })
   .use(authPlugin)
   .get(
-    "/list/:id",
+    "/:id",
     async ({ params, ...request }) => {
       try {
         console.log(request, "request");
@@ -17,11 +17,13 @@ export const productRouter = new Elysia({ prefix: "/products" })
         console.log({ id });
         const product = await prisma.product.findFirst({
           where: {
-            id,
+            id: id,
           },
         });
+
+        console.log("finding the product....");
         console.log(product, "product");
-        return product;
+        return { product };
       } catch (e) {
         return error(500, e);
       }

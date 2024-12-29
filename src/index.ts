@@ -4,12 +4,15 @@ import Elysia from "elysia";
 import { userRouter } from "./routes/userRouter";
 import { productRouter } from "./routes/productRouter";
 import { logger } from "@bogeychan/elysia-logger";
-import { authPlugin } from "./middleware/authPlugin";
 import { authRouter } from "./routes/authRouter";
+import orderRouter from "./routes/orderRouter";
+
+
 
 const app = new Elysia();
 
 app.use(cors());
+
 app
   .use(logger())
   .use(
@@ -24,4 +27,5 @@ app
   .use(userRouter)
   .use(authRouter)
   .use(productRouter)
+  .use(orderRouter)
   .listen(3000);

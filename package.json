@@ -16,7 +16,11 @@
     "@prisma/client": "6.1.0",
     "@types/bcrypt": "^5.0.2",
     "bcrypt": "^5.1.1",
-    "elysia": "latest"
+    "elysia": "latest",
+    "nanoid": "^5.0.9",
+    "stripe": "^17.5.0",
+    "uuid": "^11.0.3",
+    "uuidv7": "^1.0.2"
   },
   "devDependencies": {
     "bun-types": "latest",

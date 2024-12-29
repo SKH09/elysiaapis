@@ -11,10 +11,6 @@ export const authPlugin = (app: Elysia) =>
       })
     )
     .derive(async ({ jwt, headers, set }) => {
-      if (!jwt) {
-        return error(401, "JWT is not available");
-      }
-
       const authorization = headers.authorization;
       if (!authorization?.startsWith("Bearer ")) {
         return error(401, "Unauthorized");
@@ -25,12 +21,10 @@ export const authPlugin = (app: Elysia) =>
       if (!payload) {
         return error(401, "Unauthorized");
       }
-
       console.log(payload, "payload");
-
       const user = await prisma.user.findUnique({
         where: {
-          id: payload.sub,
+          id: payload.sub as string,
         },
       });
       if (!user) {

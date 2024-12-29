@@ -40,11 +40,11 @@ model Product{
 model OrderItem{
   id String @id @default(uuid())
   quantity Int
-  product Product @relation(fields: [productId], references: [id])
-  productId String
   price Float
-  order Order @relation(fields: [orderId], references: [id])
+  productId String
+  product Product @relation(fields: [productId], references: [id])
   orderId String
+  order Order @relation(fields: [orderId], references: [id])
   createdAt         DateTime      @default(now())
   updatedAt         DateTime       @updatedAt
 }
