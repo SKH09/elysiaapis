@@ -6,12 +6,13 @@ import { productRouter } from "./routes/productRouter";
 import { logger } from "@bogeychan/elysia-logger";
 import { authRouter } from "./routes/authRouter";
 import orderRouter from "./routes/orderRouter";
+import { webhook } from "./routes/webhook";
 
 
 
 const app = new Elysia();
 
-app.use(cors());
+app.use(cors()); // Enable CORS
 
 app
   .use(logger())
@@ -25,6 +26,7 @@ app
   })
 
   .use(userRouter)
+  .use(webhook)
   .use(authRouter)
   .use(productRouter)
   .use(orderRouter)
