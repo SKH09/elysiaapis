@@ -44743,6 +44743,35 @@ var orderRouter = new Elysia2({ prefix: "/orders" }).use(authPlugin).post("/", a
 });
 var orderRouter_default = orderRouter;
 
+// src/routes/webhook.ts
+var webhook = new Elysia2({}).post("/webhook", async ({ body, headers }) => {
+  const stripeClient2 = new stripe_esm_worker_default(Bun.env.STRIPE_SECRET_KEY, {
+    apiVersion: "2024-12-18.acacia"
+  });
+  const sig = headers["stripe-signature"];
+  let event;
+  try {
+    event = stripeClient2.webhooks.constructEvent(body, sig, "whsec_hADwjVFS6FyW7YvXuIAvQx1rYjEK1qzF");
+  } catch (err) {
+    return error4(400, "bad request");
+  }
+  switch (event.type) {
+    case "charge.succeeded":
+      const chargeSucceeded = event.data.object;
+      break;
+    case "payment_intent.created":
+      const paymentIntentCreated = event.data.object;
+      break;
+    case "payment_intent.succeeded":
+      const paymentIntentSucceeded = event.data.object;
+      console.log("Payment completed!", paymentIntentSucceeded);
+      break;
+    default:
+      console.log(`Unhandled event type ${event.type}`);
+  }
+  return { received: true };
+});
+
 // src/index.ts
 var app = new Elysia2;
 app.use(index_default());
@@ -44750,4 +44779,4 @@ app.use(logger()).use(src_default({
   path: "/swagger"
 })).get("/", () => {
   return "Main Route";
-}).use(userRouter).use(authRouter).use(productRouter).use(orderRouter_default).listen(3000);
+}).use(userRouter).use(webhook).use(authRouter).use(productRouter).use(orderRouter_default).listen(3000);
