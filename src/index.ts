@@ -6,7 +6,7 @@ import { productRouter } from "./routes/productRouter";
 import { logger } from "@bogeychan/elysia-logger";
 import { authRouter } from "./routes/authRouter";
 import orderRouter from "./routes/orderRouter";
-import { webhook } from "./routes/webhook";
+import { webhookRouter } from "./routes/webhook";
 
 
 
@@ -26,7 +26,7 @@ app
   })
 
   .use(userRouter)
-  .use(webhook)
+  .use(webhookRouter)
   .use(authRouter)
   .use(productRouter)
   .use(orderRouter)

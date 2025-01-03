@@ -44751,7 +44751,7 @@ var webhook = new Elysia2({}).post("/webhook", async ({ body, headers }) => {
   const sig = headers["stripe-signature"];
   let event;
   try {
-    event = stripeClient2.webhooks.constructEvent(body, sig, "whsec_hADwjVFS6FyW7YvXuIAvQx1rYjEK1qzF");
+    event = stripeClient2.webhooks.constructEvent(body, sig, "whsec_4206b2a73c4bdef5703d857ece239599c6c16646d00a7498f3528222cdefa075");
   } catch (err) {
     return error4(400, "bad request");
   }
