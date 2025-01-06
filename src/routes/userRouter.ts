@@ -18,13 +18,12 @@ export const userRouter = new Elysia({ prefix: "/users" })
     "/create",
     async ({ body }) => {
       try {
-        const { email, image, name, password } = body;
+        const { email, name, password } = body;
         const hashedPassword = await Bun.password.hash(password);
         const newUser = await prisma.user.create({
           data: {
             name,
             email,
-            image,
             password: hashedPassword,
           },
         });
