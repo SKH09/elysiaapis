@@ -8,8 +8,6 @@ import { authRouter } from "./routes/authRouter";
 import orderRouter from "./routes/orderRouter";
 import { webhookRouter } from "./routes/webhook";
 
-
-
 const app = new Elysia();
 
 app.use(cors()); // Enable CORS

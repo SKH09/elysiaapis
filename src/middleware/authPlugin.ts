@@ -5,7 +5,8 @@ import { prisma } from "../models/database";
 console.log(Bun.env.JWT_TOKEN, "token");
 
 export const authPlugin = (app: Elysia) =>
-  app.use(
+  app
+    .use(
       jwt({
         secret: Bun.env.JWT_TOKEN as string,
       })

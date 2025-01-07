@@ -8,6 +8,7 @@ CREATE TYPE "DeliveryStatus" AS ENUM ('DELIVERED', 'PENDING', 'FAILED');
 CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "image" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -34,8 +35,8 @@ CREATE TABLE "Product" (
 CREATE TABLE "OrderItem" (
     "id" TEXT NOT NULL,
     "quantity" INTEGER NOT NULL,
-    "productId" TEXT NOT NULL,
     "price" DOUBLE PRECISION NOT NULL,
+    "productId" TEXT NOT NULL,
     "orderId" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,

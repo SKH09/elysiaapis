@@ -7,6 +7,7 @@ export const userRouter = new Elysia({ prefix: "/users" })
   .get("/list", async ({}) => {
     try {
       const users = await prisma.user.findMany();
+      console.log("Users from database", users);
       return users;
     } catch (e) {
       return error(500, "Internal Server Error");
@@ -18,20 +19,21 @@ export const userRouter = new Elysia({ prefix: "/users" })
     "/create",
     async ({ body }) => {
       try {
-        const { email, name, password } = body;
+        const { email, name, password, image } = body;
+
+        console.log("received user data:", { email, name, password, image });
         const hashedPassword = await Bun.password.hash(password);
         const newUser = await prisma.user.create({
           data: {
             name,
             email,
             password: hashedPassword,
+            image,
           },
         });
-        const user = {
-          name: newUser.name,
-        };
-        return user;
+        return { user: newUser };
       } catch (e) {
+        console.error("Error creating user:", e);
         return error(500, "Internal Server Error");
       }
     },
