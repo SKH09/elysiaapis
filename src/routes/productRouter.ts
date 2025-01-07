@@ -7,6 +7,7 @@ export const productRouter = new Elysia({ prefix: "/products" })
     const products = await prisma.product.findMany({});
     return products;
   })
+
   .use(authPlugin)
   .get(
     "/:id",
@@ -35,4 +36,31 @@ export const productRouter = new Elysia({ prefix: "/products" })
         }),
       }),
     }
-  );
+  )
+  .post(
+    "/",
+    async (req) => {
+      const product = await prisma.product.create({
+        data: {
+          name: req.body.name,
+          price: req.body.price,
+          description: req.body.description,
+          image: req.body.image,
+          stock: req.body.stock,
+        },
+      });
+      return product;
+    },
+    {
+      body: t.Object({
+        name: t.String(),
+        price: t.Number({
+          minimum: 100,
+          maximum: 200,
+        }),
+        description: t.String(),
+        image: t.String(),
+        stock: t.Number(),
+      }),
+    }
+  )
