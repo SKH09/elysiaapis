@@ -19,6 +19,7 @@ export const productRouter = new Elysia({ prefix: "/products" })
           stock: req.body.stock,
         },
       });
+      console.log("product created", product);
       return product;
     },
     {
@@ -34,7 +35,6 @@ export const productRouter = new Elysia({ prefix: "/products" })
       }),
     }
   )
-
 
   .use(authPlugin)
   .get(
@@ -64,4 +64,4 @@ export const productRouter = new Elysia({ prefix: "/products" })
         }),
       }),
     }
-  )
+  );
