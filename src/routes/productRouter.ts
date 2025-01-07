@@ -7,20 +7,51 @@ export const productRouter = new Elysia({ prefix: "/products" })
     const products = await prisma.product.findMany({});
     return products;
   })
+  // .post(
+  //   "/create",
+  //   async (req) => {
+  //     const product = await prisma.product.create({
+  //       data: {
+  //         name: req.body.name,
+  //         price: req.body.price,
+  //         description: req.body.description,
+  //         image: req.body.image,
+  //         stock: req.body.stock,
+  //       },
+  //     });
+  //     console.log("product created", product);
+  //     return product;
+  //   },
+  //   {
+  //     body: t.Object({
+  //       name: t.String(),
+  //       price: t.Number({
+  //         minimum: 100,
+  //         maximum: 200,
+  //       }),
+  //       description: t.String(),
+  //       image: t.String(),
+  //       stock: t.Number(),
+  //     }),
+  //   }
+  // )
+
   .post(
     "/create",
     async (req) => {
-      const product = await prisma.product.create({
-        data: {
-          name: req.body.name,
-          price: req.body.price,
-          description: req.body.description,
-          image: req.body.image,
-          stock: req.body.stock,
-        },
-      });
-      console.log("product created", product);
-      return product;
+      try {
+        const product = await prisma.product.create({
+          data: {
+            name: req.body.name,
+            price: req.body.price,
+            description: req.body.description,
+            image: req.body.image,
+            stock: req.body.stock,
+          },
+        });
+      } catch (error) {
+        console.error("Validation error or Prisma error:", error);
+      }
     },
     {
       body: t.Object({
@@ -35,6 +66,41 @@ export const productRouter = new Elysia({ prefix: "/products" })
       }),
     }
   )
+  .put(
+    "/:id",
+    async (req) => {
+      const productInfo = req.body;
+      const productId = req.params.id;
+      const updatedProduct = await prisma.product.update({
+        where: {
+          id: productId,
+        },
+        data: {
+          name: productInfo.name,
+          price: productInfo.price,
+          description: productInfo.description,
+          image: productInfo.image,
+          stock: productInfo.stock,
+        },
+      });
+      return updatedProduct;
+    },
+    {
+      body: t.Object({
+        name: t.String(),
+        price: t.Number({
+          minimum: 100,
+          maximum: 2000,
+        }),
+        description: t.String(),
+        image: t.String(),
+        stock: t.Number(),
+      }),
+    }
+  )
+  .delete("/:id", (req) => {
+    return req.params.id;
+  })
 
   .use(authPlugin)
   .get(
