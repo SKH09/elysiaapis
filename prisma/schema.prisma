@@ -31,9 +31,7 @@ model Product{
   stock Int
   createdAt         DateTime      @default(now())
   updatedAt         DateTime       @updatedAt
-
-
-  orderItems OrderItem[]
+orderItems OrderItem[]
 }
 
 //Order Item

@@ -38,17 +38,19 @@ export const productRouter = new Elysia({ prefix: "/products" })
 
   .post(
     "/create",
-    async (req) => {
+    async ({ body }) => {
       try {
+        const { name, price, description, image, stock } = body;
         const product = await prisma.product.create({
           data: {
-            name: req.body.name,
-            price: req.body.price,
-            description: req.body.description,
-            image: req.body.image,
-            stock: req.body.stock,
+            name,
+            price,
+            description,
+            image,
+            stock,
           },
         });
+        return product;
       } catch (error) {
         console.error("Validation error or Prisma error:", error);
       }
@@ -56,10 +58,7 @@ export const productRouter = new Elysia({ prefix: "/products" })
     {
       body: t.Object({
         name: t.String(),
-        price: t.Number({
-          minimum: 100,
-          maximum: 200,
-        }),
+        price: t.Number({}),
         description: t.String(),
         image: t.String(),
         stock: t.Number(),
@@ -67,40 +66,64 @@ export const productRouter = new Elysia({ prefix: "/products" })
     }
   )
   .put(
-    "/:id",
-    async (req) => {
-      const productInfo = req.body;
-      const productId = req.params.id;
-      const updatedProduct = await prisma.product.update({
-        where: {
-          id: productId,
-        },
-        data: {
-          name: productInfo.name,
-          price: productInfo.price,
-          description: productInfo.description,
-          image: productInfo.image,
-          stock: productInfo.stock,
-        },
-      });
-      return updatedProduct;
+    "/update/:id",
+    async ({ body, params }) => {
+      try {
+        const { id } = params; // Extract product ID from URL params
+        const { name, price, description, image, stock } = body;
+
+        const updatedProduct = await prisma.product.update({
+          where: { id: String(id) },
+          data: {
+            name,
+            price,
+            description,
+            image,
+            stock,
+          },
+        });
+
+        return updatedProduct;
+      } catch (error) {
+        console.error("Error updating product:", error);
+      }
     },
     {
+      params: t.Object({
+        id: t.String(), // Assuming `id` is passed as a string in the URL
+      }),
       body: t.Object({
-        name: t.String(),
-        price: t.Number({
-          minimum: 100,
-          maximum: 2000,
-        }),
+        name: t.String(), // Optional fields for partial updates
+        price: t.Number(),
         description: t.String(),
         image: t.String(),
         stock: t.Number(),
       }),
     }
   )
-  .delete("/:id", (req) => {
-    return req.params.id;
-  })
+  .delete(
+    "/:id",
+    async ({ params }) => {
+      try {
+        const { id } = params; // Extract product ID from URL params
+
+        const deletedProduct = await prisma.product.delete({
+          where: {
+            id,
+          },
+        });
+
+        return deletedProduct;
+      } catch (error) {
+        console.error("Error deleting product:", error);
+      }
+    },
+    {
+      params: t.Object({
+        id: t.String(), // Assuming `id` is passed as a string in the URL
+      }),
+    }
+  )
 
   .use(authPlugin)
   .get(
