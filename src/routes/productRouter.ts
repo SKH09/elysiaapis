@@ -38,7 +38,7 @@ export const productRouter = new Elysia({ prefix: "/products" })
     }
   )
   .post(
-    "/",
+    "/create",
     async (req) => {
       const product = await prisma.product.create({
         data: {
